@@ -16,11 +16,12 @@ class Dashboard:
             "Batting Performance",
             "Bowling Performance",
             "Match Analysis",
-            "Player Analysis",
-            "Trends & Patterns",
-            "Overall Performance",
+            # "Player Analysis",
+            # "Trends & Patterns",
+            # "Overall Performance",
         ]
         self.tabs = st.tabs(self.tab_names)
+        # home tab
         with self.tabs[0]:
             st.title("IPL 2024🏏")
             st.subheader("Welcome to the IPL Analysis Dashboard!")
@@ -32,31 +33,39 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
             )
             st.write("")
             st.write("")
+            overall_info = dbo.get_overall_info()
+            st.metric("IPL 2024 Champions", overall_info["champions"])
+
             st.write("")
+
+            self.cols = st.columns(3)
+            with self.cols[0]:
+                st.metric("Orange Cap", overall_info['orange_cap'])
+            with self.cols[1]:
+                st.metric("Purple Cap", overall_info['purple_cap'])
+            with self.cols[2]:
+                st.metric("MVP", overall_info['m_v_p'])
+            
+            st.markdown("""---""")
+
+
             self.cols = st.columns(4)
             with self.cols[0]:
-                st.metric(
-                    "Total Matches Played",
-                    500,
-                )
+                st.metric("Total Matches Played", overall_info["total_matches"])
 
             with self.cols[1]:
-                st.metric(
-                    "Total Runs Scored",
-                    500,
-                )
+                st.metric("Total Runs Scored", overall_info["total_runs_scored"])
 
             with self.cols[2]:
-                st.metric(
-                    "Total Wickets Taken",
-                    500,
-                )
+                st.metric("Total Wickets Taken", overall_info["total_wickets"])
 
             with self.cols[3]:
-                st.metric(
-                    "Total Extras Conceded",
-                    500,
-                )
+                st.metric("Total Extras Conceded", overall_info["total_extras"])
+
+            st.write('')
+            
+
+
 
         # Batting Performance tab
         with self.tabs[1]:
@@ -75,7 +84,6 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                 with cols[0]:
                     st.header(self.selected_player)
                     st.subheader(dbo.get_player_info(self.selected_player)["team"])
-                st.write("")
                 batting_player_info_cols = st.columns(6)
                 with batting_player_info_cols[0]:
                     st.metric(
@@ -110,8 +118,9 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                         ),
                     )
 
-                st.write("")
-                st.write("")
+                st.markdown("""---""")
+
+                
 
                 cols = st.columns(2)
 
@@ -134,7 +143,13 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                             legend=dict(
                                 x=0.01, y=0.99, title="", orientation="h"
                             ),  # Adjust legend position and orientation
-                        )
+                        ),
+                        config={
+                            "displayModeBar": False,
+                            "scrollZoom": False,
+                            "displaylogo": False,
+                            "staticPlot": False,
+                        },
                     )
 
                 with cols[0]:
@@ -155,7 +170,13 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                             legend=dict(
                                 x=0.01, y=0.99, title="", orientation="h"
                             ),  # Adjust legend position and orientation
-                        )
+                        ),
+                        config={
+                            "displayModeBar": False,
+                            "scrollZoom": False,
+                            "displaylogo": False,
+                            "staticPlot": False,
+                        },
                     )
 
                 with cols[1]:
@@ -180,7 +201,13 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                             legend=dict(
                                 x=0.01, y=0.99, title="", orientation="h"
                             ),  # Adjust legend position and orientation
-                        )
+                        ),
+                        config={
+                            "displayModeBar": False,
+                            "scrollZoom": False,
+                            "displaylogo": False,
+                            "staticPlot": False,
+                        },
                     )
 
             # Teams tab
@@ -196,6 +223,9 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                 self.team_matchwise_info = dbo.get_team_matchwise_info(
                     self.selected_team
                 )
+
+                st.markdown("""---""")
+
                 cols = st.columns(2)
 
                 with cols[0]:
@@ -224,7 +254,13 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                             legend=dict(
                                 x=0.01, y=0.99, title="", orientation="h"
                             ),  # Adjust legend position and orientation
-                        )
+                        ),
+                        config={
+                            "displayModeBar": False,
+                            "scrollZoom": False,
+                            "displaylogo": False,
+                            "staticPlot": False,
+                        },
                     )
 
                 with cols[1]:
@@ -253,7 +289,13 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                             legend=dict(
                                 x=0.01, y=0.99, title="", orientation="h"
                             ),  # Adjust legend position and orientation
-                        )
+                        ),
+                        config={
+                            "displayModeBar": False,
+                            "scrollZoom": False,
+                            "displaylogo": False,
+                            "staticPlot": False,
+                        },
                     )
 
                 with cols[0]:
@@ -278,11 +320,17 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                             legend=dict(
                                 x=0.01, y=0.99, title="", orientation="h"
                             ),  # Adjust legend position and orientation
-                        )
+                        ),
+                        config={
+                            "displayModeBar": False,
+                            "scrollZoom": False,
+                            "displaylogo": False,
+                            "staticPlot": False,
+                        },
                     )
 
                 with cols[1]:
-                    #Performance by Opposition
+                    # Performance by Opposition
 
                     st.plotly_chart(
                         px.bar(
@@ -290,7 +338,7 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                             x="vs",
                             y="total_runs",
                             labels={
-                                'vs':'Opposition',
+                                "vs": "Opposition",
                                 "total_runs": "Runs",
                             },
                             title="Performance By Opposition",
@@ -301,10 +349,14 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
                             legend=dict(
                                 x=0.01, y=0.99, title="", orientation="h"
                             ),  # Adjust legend position and orientation
-                        )
+                        ),
+                        config={
+                            "displayModeBar": False,
+                            "scrollZoom": False,
+                            "displaylogo": False,
+                            "staticPlot": False,
+                        },
                     )
-
-
 
         with self.tabs[2]:
 
@@ -314,17 +366,17 @@ Dive into the world of the Indian Premier League with our comprehensive analysis
 
             st.header(self.tab_names[3])
 
-        with self.tabs[4]:
+        # with self.tabs[4]:
 
-            st.header(self.tab_names[4])
+        #     st.header(self.tab_names[4])
 
-        with self.tabs[5]:
+        # with self.tabs[5]:
 
-            st.header(self.tab_names[5])
+        #     st.header(self.tab_names[5])
 
-        with self.tabs[6]:
+        # with self.tabs[6]:
 
-            st.header(self.tab_names[6])
+        #     st.header(self.tab_names[6])
 
 
 Dashboard()
